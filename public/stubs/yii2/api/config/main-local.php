@@ -3,13 +3,12 @@
 $config = [
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '7Zahf41C4AMjxPsFuKs7m7rDwXrb-vNL',
+            'cookieValidationKey' => 'DummyValidationKey',
         ],
     ],
 ];
 
-if (!YII_ENV_TEST) {
+if (YII_DEBUG) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [

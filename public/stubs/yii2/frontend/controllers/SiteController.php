@@ -8,7 +8,6 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use app\models\User;
-use zacksleo\yii2\gitlab\behaviors\ErrorBehavior;
 
 class SiteController extends Controller
 {
@@ -33,12 +32,6 @@ class SiteController extends Controller
                         'roles' => ['@'],
                     ],
                 ],
-            ],
-            'behaviors' => [
-                'class' => ErrorBehavior::className(),
-                'apiRoot' => 'https://gitlab.com/api/v4/',
-                'privateToken' => 'privateToken',
-                'projectName' => 'zacksleo/yii2-app-advanced'
             ]
         ];
     }

@@ -1,6 +1,7 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'language' => 'zh-CN',
     'timeZone' => 'Asia/Chongqing',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',

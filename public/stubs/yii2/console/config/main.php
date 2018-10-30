@@ -8,6 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-console',
+    'name' => getenv('APP_NAME'),
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'console\controllers',
@@ -16,7 +17,6 @@ return [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationPath' => [
                 '@console/migrations/',
-                '@zacksleo/yii2/lookup/migrations',
             ],
         ],
     ],

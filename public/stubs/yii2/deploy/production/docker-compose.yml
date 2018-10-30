@@ -32,3 +32,21 @@ services:
             - web
         restart: always
 
+    mysql:
+        image: mysql:8.0
+        ports:
+            - "3306:3306"
+        expose:
+            - "3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${APP_ID}
+            MYSQL_USER: ${APP_ID}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - ./deploy/development/mysql:/var/lib/mysql
+        command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    redis:
+        image: redis:alpine
+        expose:
+            - "6379"
