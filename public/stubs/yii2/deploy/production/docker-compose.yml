@@ -1,0 +1,34 @@
+version: '2'
+services:
+
+    web:
+        container_name: yii2-app-advanced
+        image: registry.domain.com/namespace/yii2-app-advanced:${TAG}
+        volumes:
+            - ./.env:/var/www/html/.env
+            - ./data/api/runtime:/var/www/html/api/runtime
+            - ./data/api/web/assets:/var/www/html/api/web/assets
+            - ./data/backend/runtime:/var/www/html/backend/runtime
+            - ./data/backend/rbac:/var/www/html/backend/rbac
+            - ./data/backend/web/assets:/var/www/html/backend/web/assets
+            - ./data/console/runtime:/var/www/html/console/runtime
+            - ./data/frontend/runtime:/var/www/html/frontend/runtime
+            - ./data/frontend/web/assets:/var/www/html/frontend/web/assets
+            - ./data/frontend/web/uploads:/var/www/html/frontend/web/uploads
+        environment:
+            ENABLE_ENV_FILE: 1
+            ENABLE_LOCALCONF: 1
+        expose:
+            - 9000
+        restart: always
+
+    nginx:
+        image: zacksleo/nginx:yii2
+        ports:
+            - "80:80"
+        links:
+            - web
+        volumes_from:
+            - web
+        restart: always
+
