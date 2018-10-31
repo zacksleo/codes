@@ -34,7 +34,7 @@ class NewProjectCommand extends GeneratorCommand
     public function handle()
     {
         $id = $this->ask('请输入项目代码：');
-        $path = base_path() . "/$id/";
+        $path = getcwd() . "/$id/";
         if (file_exists($path)) {
             $this->error('项目已存在');
             return false;
@@ -47,19 +47,31 @@ class NewProjectCommand extends GeneratorCommand
             'name' => $name,
             'email' => $email,
         ];
-
-        $this->files->copyDirectory(public_path('stubs/' . $template . '/'), $path);
-        //var_dump($this->files->get($this->getStub($template)));
-
-        //$this->files->put($path, $this->buildClass($name));
+        $cacheDir = $_SERVER['HOME'] . '/.genesis/';
+        if (!file_exists($cacheDir)) {
+            $this->files->makeDirectory($cacheDir);
+        }
+        $file = $cacheDir . '/yii2.zip';
+        if (!file_exists($file)) {
+            $this->comment('download template...');
+            file_put_contents($file, fopen('https://codeload.github.com/zacksleo/yii2-app-advanced/zip/master', 'r'));
+        }
+        $zip = new \ZipArchive();
+        $res = $zip->open($file);
+        if ($res === true) {
+            $zip->extractTo(getcwd());
+            rename('yii2-app-advanced-master', $id);
+            $zip->close();
+            //unlink($file);
+        } else {
+            return $this->error("Couldn't open $file");
+        }
         switch ($template) {
             case 'yii2':
                 $this->buildYii($name, $envs, $path);
                 break;
         }
-
         $this->info('created successfully.');
-
     }
 
     /**
